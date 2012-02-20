@@ -245,3 +245,31 @@ $.bookmarklet.facebookLike = function(options) {
 
 	return script;
 };
+
+$.bookmarklet.pinterest = function(options) {
+	var node = this[0],
+		parent = node.parentNode,
+		button = document.createElement("a"),
+		script = document.createElement("script");
+
+	$(button)
+		.attr({
+			"class": "pin-it-button",
+			"href": "http://pinterest.com/pin/create/button/?url=" + options.url,
+			"count-layout": options.style,
+		})
+		.html("Pin It");
+
+	parent.insertBefore(button, node);
+	parent.insertBefore(script, node);
+	parent.removeChild(node);
+
+	$(script)
+		.attr({
+			type: "text/javascript",
+			src: "http://assets.pinterest.com/js/pinit.js"
+		});
+
+	return script;
+};
+
