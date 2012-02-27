@@ -225,7 +225,7 @@ $.bookmarklet.facebookLike = function(options) {
 			action: options.verb,
 			locale: options.locale,
 			colorscheme: options.theme,
-			show_faces: options.faces,
+			show_faces: options.faces
 		})
 		.css({
 			height: options.height,
@@ -256,7 +256,7 @@ $.bookmarklet.pinterest = function(options) {
 		.attr({
 			"class": "pin-it-button",
 			"href": "http://pinterest.com/pin/create/button/?url=" + options.url,
-			"count-layout": options.style,
+			"count-layout": options.style
 		})
 		.html("Pin It");
 
