@@ -110,7 +110,8 @@ $.bookmarklet.digg = function(options) {
 		script = document.createElement("script");
 
 	$(button)
-		.addClass("DiggThisButton", options["class"])
+		.addClass("DiggThisButton")
+		.addClass(options["class"])
 		.attr({
 			href: "https://digg.com/submit?url=" + options.url + "&title=" + options.title
 		});
