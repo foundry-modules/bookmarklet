@@ -256,7 +256,7 @@ $.bookmarklet.pinterest = function(options) {
 	$(button)
 		.attr({
 			"class": "pin-it-button",
-			"href": "http://pinterest.com/pin/create/button/?url=" + options.url,
+			"href": "http://pinterest.com/pin/create/button/?url=" + options.url + "&media=" + options.media + "&description=" + options.description,
 			"count-layout": options.style
 		})
 		.html("Pin It");
