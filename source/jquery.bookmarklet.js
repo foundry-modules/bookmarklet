@@ -240,10 +240,10 @@ $.bookmarklet.facebookLike = function(options) {
 			$("<div id='fb-root'></div>").prependTo("body");
 		}
 
-		var lastScript = document.getElementsByTagName("script")[0];
+		var head = document.getElementsByTagName("head")[0];
+			head.appendChild(script);
 			script.id = "facebook-jssdk";
 			script.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-			lastScript.parentNode.insertBefore(lastScript, script);
 
 	} else {
 
