@@ -212,21 +212,19 @@ $.bookmarklet.googlePlusOne = function(options) {
 $.bookmarklet.facebookLike = function(options) {
 	var node = this[0],
 		parent = node.parentNode,
-		root   = document.createElement('div'),
 		button = document.createElement("fb:like"),
 		script = document.createElement("script");
 
-	root.id = "fb-root";
-
 	$(button)
 		.attr({
-			href: options.url,
-			send: options.send,
-			layout: options.layout,
-			action: options.verb,
-			locale: options.locale,
-			colorscheme: options.theme,
-			show_faces: options.faces
+			"class": "fb-like",
+			"data-href": options.url,
+			"data-send": options.send,
+			"data-layout": options.layout,
+			"data-action": options.verb,
+			"data-locale": options.locale,
+			"data-colorscheme": options.theme,
+			"data-show-faces": options.faces
 		})
 		.css({
 			height: options.height,
@@ -234,15 +232,25 @@ $.bookmarklet.facebookLike = function(options) {
 		});
 
 	parent.insertBefore(button, node);
-	parent.insertBefore(root, node);
-	parent.insertBefore(script, node);
 	parent.removeChild(node);
 
-	$(script)
-		.attr({
-			type: "text/javascript",
-			src: "https://connect.facebook.net/" + options.locale + "/all.js#xfbml=1"
-		});
+	if (!window.FB) {
+
+		if (!document.getElementById("fb-root")) {
+			$("<div id='fb-root'></div>").prependTo("body");
+		}
+
+		var lastScript = document.getElementsByTagName("script")[0];
+			script.id = "facebook-jssdk";
+			script.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+			lastScript.parentNode.insertBefore(lastScript, script);
+
+	} else {
+
+		try {
+			FB.XFBML.parse();
+		} catch(e) {}
+	}
 
 	return script;
 };
