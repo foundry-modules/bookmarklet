@@ -243,7 +243,7 @@ $.bookmarklet.facebookLike = function(options) {
 		var head = document.getElementsByTagName("head")[0];
 			head.appendChild(script);
 			script.id = "facebook-jssdk";
-			script.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+			script.src = "//connect.facebook.net/" + options.locale + "/all.js#xfbml=1";
 
 	} else {
 
