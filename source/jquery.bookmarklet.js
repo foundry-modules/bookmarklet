@@ -276,7 +276,7 @@ $.bookmarklet.pinterest = function(options) {
 	$(script)
 		.attr({
 			type: "text/javascript",
-			src: "http://assets.pinterest.com/js/pinit.js"
+			src: "https://assets.pinterest.com/js/pinit.js"
 		});
 
 	return script;
