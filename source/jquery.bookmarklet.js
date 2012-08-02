@@ -167,7 +167,8 @@ $.bookmarklet.twitter = function(options) {
 			"href": "https://twitter.com/share",
 			"data-url": options.url,
 			"data-counturl": options.url,
-			"data-count": options.count
+			"data-count": options.count,
+			"data-via": options.via
 		})
 		.html("Tweet");
 
@@ -282,3 +283,5 @@ $.bookmarklet.pinterest = function(options) {
 	return script;
 };
 
+
+};
