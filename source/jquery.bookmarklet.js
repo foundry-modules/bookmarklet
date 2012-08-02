@@ -111,7 +111,7 @@ $.bookmarklet.digg = function(options) {
 
 	$(button)
 		.addClass("DiggThisButton")
-		.addClass(options["class"])
+		.addClass(options["classname"])
 		.attr({
 			href: "https://digg.com/submit?url=" + options.url + "&title=" + options.title
 		});
