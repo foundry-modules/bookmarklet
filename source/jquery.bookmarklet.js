@@ -282,6 +282,3 @@ $.bookmarklet.pinterest = function(options) {
 
 	return script;
 };
-
-
-};
