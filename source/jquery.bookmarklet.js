@@ -210,11 +210,15 @@ $.bookmarklet.googlePlusOne = function(options) {
 	return script;
 };
 
+
+var parseXFBML,
+	hasFBSDK;
+
 $.bookmarklet.facebookLike = function(options) {
+
 	var node = this[0],
 		parent = node.parentNode,
-		button = document.createElement("fb:like"),
-		script = document.createElement("script");
+		button = document.createElement("fb:like");
 
 	$(button)
 		.attr({
@@ -235,22 +239,38 @@ $.bookmarklet.facebookLike = function(options) {
 	parent.insertBefore(button, node);
 	parent.removeChild(node);
 
+	// If FBSDK isn't loaded, load it,
+	// the social buttons will be parsed by itself.
 	if (!window.FB) {
 
 		if (!document.getElementById("fb-root")) {
 			$("<div id='fb-root'></div>").prependTo("body");
 		}
 
-		var head = document.getElementsByTagName("head")[0];
-			head.appendChild(script);
-			script.id = "facebook-jssdk";
-			script.src = "//connect.facebook.net/" + options.locale + "/all.js#xfbml=1";
+		if (!document.getElementById("facebook-jssdk")) {
 
+			var head = document.getElementsByTagName("head")[0],
+				script = document.createElement("script");
+
+				head.appendChild(script);
+				script.id = "facebook-jssdk";
+				script.src = "//connect.facebook.net/" + options.locale + "/all.js#xfbml=1";
+		}
+
+	// If FBSDK is already loaded
 	} else {
 
-		try {
-			FB.XFBML.parse();
-		} catch(e) {}
+		// Collect all the FB like calls first
+		clearTimeout(parseXFBML);
+
+		parseXFBML = setTimeout(function(){
+
+			// Then finally parse it.
+			try {
+				FB.XFBML.parse();
+			} catch(e) {};
+
+		}, 500);
 	}
 
 	return script;
