@@ -210,9 +210,23 @@ $.bookmarklet.googlePlusOne = function(options) {
 	return script;
 };
 
+var hasFBSDK,
+	FBInited,
+	parseXFBMLTask,
+	parseXFBML = function() {
 
-var parseXFBML,
-	hasFBSDK;
+		// Collect all the FB like calls first
+		clearTimeout(parseXFBMLTask);
+
+		parseXFBMLTask = setTimeout(function(){
+
+			// Then finally parse it.
+			try {
+				FB.XFBML.parse();
+			} catch(e) {};
+
+		}, 1000);
+	};
 
 $.bookmarklet.facebookLike = function(options) {
 
@@ -247,7 +261,10 @@ $.bookmarklet.facebookLike = function(options) {
 			$("<div id='fb-root'></div>").prependTo("body");
 		}
 
-		if (!document.getElementById("facebook-jssdk")) {
+		var jssdk = document.getElementById("facebook-jssdk");
+
+		// No JSSDK
+		if (!jssdk) {
 
 			var head = document.getElementsByTagName("head")[0],
 				script = document.createElement("script");
@@ -255,25 +272,32 @@ $.bookmarklet.facebookLike = function(options) {
 				head.appendChild(script);
 				script.id = "facebook-jssdk";
 				script.src = "//connect.facebook.net/" + options.locale + "/all.js#xfbml=1";
+
+		// Has JSSDK, but no XFBML support.
+		} else if (!FBInited) {
+
+			if (!/xfbml/.test(jssdk.src)) {
+
+				var _fbAsyncInit = window.fbAsyncInit;
+
+				window.fbAsyncInit = function(){
+
+					if ($.isFunction(_fbAsyncInit)) _fbAsyncInit();
+
+					parseXFBML();
+				}
+			}
+
+			FBInited = true;
 		}
 
 	// If FBSDK is already loaded
 	} else {
 
-		// Collect all the FB like calls first
-		clearTimeout(parseXFBML);
-
-		parseXFBML = setTimeout(function(){
-
-			// Then finally parse it.
-			try {
-				FB.XFBML.parse();
-			} catch(e) {};
-
-		}, 500);
+		parseXFBML();
 	}
 
-	return script;
+	return node;
 };
 
 $.bookmarklet.pinterest = function(options) {
