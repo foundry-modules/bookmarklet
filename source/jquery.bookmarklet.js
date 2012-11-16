@@ -185,11 +185,13 @@ $.bookmarklet.twitter = function(options) {
 	return script;
 };
 
+var hasPlusOne,
+	installPlusOne;
+
 $.bookmarklet.googlePlusOne = function(options) {
 	var node = this[0],
 		parent = node.parentNode,
-		button = document.createElement("g:plusone"),
-		script = document.createElement("script");
+		button = document.createElement("g:plusone");
 
 	$(button)
 		.attr({
@@ -198,16 +200,33 @@ $.bookmarklet.googlePlusOne = function(options) {
 		});
 
 	parent.insertBefore(button, node);
-	parent.insertBefore(script, node);
 	parent.removeChild(node);
 
-	$(script)
-		.attr({
-			type: "text/javascript",
-			src: "https://apis.google.com/js/plusone.js"
-		});
+	// TODO: Check if gapi.plusone already exist (loaded by 3PD);
 
-	return script;
+	if (!hasPlusOne) {
+
+		clearTimeout(installPlusOne);
+
+		installPlusOne = setTimeout(function(){
+
+			var head = document.getElementsByTagName("head")[0],
+				script = document.createElement("script");
+
+				head.appendChild(script);
+				script.type = "text/javascript";
+				script.src = "//apis.google.com/js/plusone.js";
+
+			hasPlusOne = true;
+
+		}, 1000);
+
+	} else if (gapi && gapi.plusone) {
+
+		gapi.plusone.go(parent);
+	}
+
+	return node;
 };
 
 var hasFBSDK,
