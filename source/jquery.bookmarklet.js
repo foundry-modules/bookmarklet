@@ -262,7 +262,8 @@ $.bookmarklet.facebookLike = function(options) {
 			"data-action": options.verb,
 			"data-locale": options.locale,
 			"data-colorscheme": options.theme,
-			"data-show-faces": options.faces
+			"data-show-faces": options.faces,
+			"data-width" : options.width
 		})
 		.css({
 			height: options.height,
