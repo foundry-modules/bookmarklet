@@ -168,7 +168,8 @@ $.bookmarklet.twitter = function(options) {
 			"data-url": options.url,
 			"data-counturl": options.url,
 			"data-count": options.count,
-			"data-via": options.via
+			"data-via": options.via,
+			"data-text": options.text
 		})
 		.html("Tweet");
 
@@ -329,7 +330,7 @@ $.bookmarklet.pinterest = function(options) {
 	$(button)
 		.attr({
 			"class": "pin-it-button",
-			"href": "http://pinterest.com/pin/create/button/?url=" + options.url + "&media=" + options.media + "&description=" + options.description,
+			"href": "http://pinterest.com/pin/create/button/?url=" + options.url + "&media=" + options.media + "&description=" + options.title,
 			"count-layout": options.style
 		})
 		.html("Pin It");
