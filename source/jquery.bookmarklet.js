@@ -349,6 +349,33 @@ $.bookmarklet.xing = function(options) {
 	return script;
 };
 
+$.bookmarklet.vk = function(options) {
+
+	var node = this[0],
+		parent = node.parentNode,
+		button = document.createElement("div");
+
+	$(button)
+		.html(
+				VK.Share.button(
+				{
+					"url"			: options.url,
+					"title"			: options.text,
+					"description"	: options.description,
+					"image"			: options.image
+				},
+				{
+					type: 'round'
+				})
+			);
+
+	parent.insertBefore(button, node);
+	parent.removeChild(node);
+
+
+	return script;
+};
+
 $.bookmarklet.pinterest = function(options) {
 	var node = this[0],
 		parent = node.parentNode,
