@@ -365,7 +365,7 @@ $.bookmarklet.vk = function(options) {
 					"image"			: options.image
 				},
 				{
-					type: 'round'
+					type: options.layout == 'nocount' ? 'round_nocount' : 'round'
 				})
 			);
 
