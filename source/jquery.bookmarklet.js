@@ -321,6 +321,34 @@ $.bookmarklet.facebookLike = function(options) {
 	return node;
 };
 
+$.bookmarklet.xing = function(options) {
+
+	var node = this[0],
+		parent = node.parentNode,
+		button = document.createElement("div"),
+		script = document.createElement("script");
+
+	$(button)
+		.attr({
+			"data-url": options.url,
+			"data-counter": options.layout == 'small' ? 'right' : 'top',
+			"data-type": 'XING/Share'
+		})
+		.html("");
+
+	parent.insertBefore(button, node);
+	parent.insertBefore(script, node);
+	parent.removeChild(node);
+
+	$(script)
+		.attr({
+			type: "text/javascript",
+			src: "https://www.xing-share.com/js/external/share.js"
+		});
+
+	return script;
+};
+
 $.bookmarklet.pinterest = function(options) {
 	var node = this[0],
 		parent = node.parentNode,
