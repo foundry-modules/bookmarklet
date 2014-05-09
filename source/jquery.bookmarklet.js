@@ -371,9 +371,6 @@ $.bookmarklet.vk = function(options) {
 
 	parent.insertBefore(button, node);
 	parent.removeChild(node);
-
-
-	return script;
 };
 
 $.bookmarklet.pinterest = function(options) {
