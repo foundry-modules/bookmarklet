@@ -177,11 +177,31 @@ $.bookmarklet.twitter = function(options) {
 	parent.insertBefore(script, node);
 	parent.removeChild(node);
 
-	$(script)
-		.attr({
-			type: "text/javascript",
-			src: "https://platform.twitter.com/widgets.js"
-		});
+	var twttr = window.twttr;
+
+	if (!twttr) {
+
+		$(script)
+			.attr({
+				type: "text/javascript",
+				src: "https://platform.twitter.com/widgets.js"
+			})
+			.appendTo("head");
+
+		twttr = window.twttr = {
+			_e: [],
+			ready: function(fn) {
+				twttr._e.push(fn)
+			}
+		};
+
+		if (options["somethingIForgot"]) {
+			// TODO: Mark fill in the blanks
+			twttr.ready(function(){
+
+			});
+		}
+	}
 
 	return script;
 };
