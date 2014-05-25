@@ -225,9 +225,14 @@ $.bookmarklet.twitter = function(options) {
 			}
 		};
 
-		if (options["somethingIForgot"]) {
-			// TODO: Mark fill in the blanks
+		if (options.tracking) {
+
 			twttr.ready(function(){
+		      var opt_pagePath;
+		      if (intent_event.target && intent_event.target.nodeName == 'IFRAME') {
+		            opt_pagePath = extractParamFromUri(intent_event.target.src, 'url');
+		      }
+		      _gaq.push(['_trackSocial', 'twitter', 'tweet', opt_pagePath]);
 
 			});
 		}
