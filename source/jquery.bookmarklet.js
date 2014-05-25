@@ -130,6 +130,36 @@ $.bookmarklet.digg = function(options) {
 	return script;
 };
 
+$.bookmarklet.pocket = function(options) {
+
+	var node = this[0],
+		parent = node.parentNode,
+		button = document.createElement("a"),
+		script = document.createElement("script");
+
+	$(button)
+		.addClass('pocket-btn')
+		.attr({
+			"data-pocket-label": "pocket",
+			"data-pocket-count": options.layout,
+			"data-save-url": options.url,
+			"data-lang": "en"
+		})
+		.html("");
+
+	parent.insertBefore(button, node);
+	parent.insertBefore(script, node);
+	parent.removeChild(node);
+
+	$(script)
+		.attr({
+			type: "text/javascript",
+			src: "https://widgets.getpocket.com/v1/j/btn.js?v=1"
+		});
+
+	return script;
+};
+
 $.bookmarklet.stumbleUpon = function(options) {
 	var node = this[0],
 		parent = node.parentNode,
