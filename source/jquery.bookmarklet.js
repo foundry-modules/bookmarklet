@@ -185,6 +185,19 @@ $.bookmarklet.stumbleUpon = function(options) {
 	return script;
 };
 
+
+window.trackTwitter = function(intent_event) {
+	if (intent_event) {
+		var opt_pagePath;
+		
+		if (intent_event.target && intent_event.target.nodeName == 'IFRAME') {
+			opt_pagePath = extractParamFromUri(intent_event.target.src, 'url');
+		}
+		
+		_gaq.push(['_trackSocial', 'twitter', 'tweet', opt_pagePath]);					
+	}
+}
+
 $.bookmarklet.twitter = function(options) {
 	var node = this[0],
 		parent = node.parentNode,
@@ -226,14 +239,8 @@ $.bookmarklet.twitter = function(options) {
 		};
 
 		if (options.tracking) {
-
-			twttr.ready(function(){
-		      var opt_pagePath;
-		      if (intent_event.target && intent_event.target.nodeName == 'IFRAME') {
-		            opt_pagePath = extractParamFromUri(intent_event.target.src, 'url');
-		      }
-		      _gaq.push(['_trackSocial', 'twitter', 'tweet', opt_pagePath]);
-
+			twttr.ready(function(intent_event){
+				twttr.events.bind('tweet', window.trackTwitter);
 			});
 		}
 	}
