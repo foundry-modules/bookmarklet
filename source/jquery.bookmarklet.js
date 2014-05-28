@@ -314,8 +314,22 @@ $.bookmarklet.facebookLike = function(options) {
 
 	var node = this[0],
 		parent = node.parentNode,
-		button = document.createElement("fb:like");
+		button = document.createElement("fb:like"),
+		trackFB = function() {
+			if (options.tracking) {
+		        window.FB.Event.subscribe('edge.create', function(targetUrl) {
+		          _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
+		        });
 
+		        window.FB.Event.subscribe('edge.remove', function(targetUrl) {
+		          _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
+		        });
+
+		        window.FB.Event.subscribe('message.send', function(targetUrl) {
+		          _gaq.push(['_trackSocial', 'facebook', 'send', targetUrl]);
+		        });
+		    }
+		};
 	$(button)
 		.attr({
 			"class": "fb-like",
@@ -367,7 +381,9 @@ $.bookmarklet.facebookLike = function(options) {
 
 					if ($.isFunction(_fbAsyncInit)) _fbAsyncInit();
 
+
 					parseXFBML();
+					trackFB();
 				}
 			}
 
@@ -378,7 +394,10 @@ $.bookmarklet.facebookLike = function(options) {
 	} else {
 
 		parseXFBML();
+		trackFB();
 	}
+
+
 
 	return node;
 };
